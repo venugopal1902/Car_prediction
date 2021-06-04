@@ -12,8 +12,7 @@ future==0.18.2
 google-auth==1.20.0
 google-auth-oauthlib==0.4.1
 google-pasta==0.2.0
-
-gunicorn==19.9.0
+grpcio==1.30.0
 hyperopt==0.2.5
 idna==2.10
 itsdangerous==1.1.0
