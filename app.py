@@ -64,8 +64,7 @@ def predict():
     put_html('<a href="/" style="background-color:blue;margin-left:350px;color:white;;padding :8px;border-radius:5px;font-size:30px;text-decoration:none;box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">Home</a>')
       
 
-app.add_url_rule('/', 'webio_view', webio_view(predict),
-            methods=['GET', 'POST', 'OPTIONS'])
+
 
 
 if __name__ == '__main__':
