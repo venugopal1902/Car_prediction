@@ -13,41 +13,56 @@ app = Flask(__name__)
 
 
 def predict():
-    Year = input("Enter the Year in which year you have bought car：", type=NUMBER)
-    Year = 2021 - Year
-    Present_Price = input("Enter the Present Price(in LAKHS)", type=FLOAT)
-    Kms_Driven = input("Enter the distance it has travelled(in KMS)：", type=FLOAT)
+   Year = input("Enter the Year in which year you have bought car：", type=NUMBER,name=f's{1}')
     
-    Owner = input("Enter the number of owners who have previously owned it", type=NUMBER)
-    Fuel_Type = select('What is the Fuel Type', ['Petrol', 'Diesel','CNG'])
-    if (Fuel_Type == 'Petrol'):
-        Fuel_Type = 2
+    Present_Price = input("Enter the Present Price(in LAKHS)", type=FLOAT,name=f's{2}')
+    Kms_Driven = input("Enter the distance it has travelled(in KMS)：", type=FLOAT,name=f's{3}')
+    
+    Owner = input("Enter the number of owners who have previously owned it", type=NUMBER,name=f's{4}')
+    Fuel_Type = select('What is the Fuel Type', ['Petrol', 'Diesel','CNG'],name=f's{5}')
+    
+ 
+    Seller_Type = select('Are you a dealer or an individual', ['Dealer', 'Individual'],name=f's{6}')
+    Transmission = select('Transmission Type', ['Manual Car', 'Automatic Car'],name=f's{7}')
+    d = [Present_Price, Kms_Driven, Fuel_Type, Seller_Type, Transmission, Owner, Year]
+    d = input_group('basic info',d) 
+    print(d)
+    d= list(d.values())
+    print(d)
+    d[6] = 2021-d[6]
+    if (d[2] == 'Petrol'):
+        d[2] = 2
 
-    elif (Fuel_Type == 'Diesel'):
-        Fuel_Type = 1
+    elif (d[2] == 'Diesel'):
+        d[2] = 1
 
     else:
-        Fuel_Type = 3
-    Seller_Type = select('Are you a dealer or an individual', ['Dealer', 'Individual'])
-    if (Seller_Type == 'Individual'):
-        Seller_Type = 1
+        d[2] = 3
+    
+    if (d[3] == 'Individual'):
+        d[3] = 1
 
     else:
-        Seller_Type = 0
-    Transmission = select('Transmission Type', ['Manual Car', 'Automatic Car'])
-    if (Transmission == 'Manual Car'):
-        Transmission = 0
+        d[3] = 0
+    
+    if (d[4] == 'Manual Car'):
+        d[4] = 0
     else:
-        Transmission = 1
+        d[4] = 1
 
-    prediction = model.predict([[Present_Price, Kms_Driven, Fuel_Type, Seller_Type, Transmission, Owner, Year]])
+    prediction = model.predict([d])
     output = round(prediction[0], 2)
 
     if output < 0:
-        put_text("Sorry You can't sell this Car")
+        put_text("<h2>Sorry You can't sell this Car</h2>")
 
     else:
-        put_text('You can sell this Car at price(inlakhs):',output)
+        put_html(f'<h2>You can sell this Car at price(inlakhs): {output}</h2>')
+                 
+                
+                
+    put_html('<a href="/" style="background-color:blue;margin-left:350px;color:white;;padding :8px;border-radius:5px;font-size:30px;text-decoration:none;box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">Home</a>')
+      
 
 app.add_url_rule('/', 'webio_view', webio_view(predict),
             methods=['GET', 'POST', 'OPTIONS'])
